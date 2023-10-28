@@ -18,34 +18,56 @@
 // Implement the sortByBits function correctly
 
 
+// First Solution
+// const sortByBits = function (arr) {
+//     let obj = {};
 
+//     for (let i = 0; i < arr.length; i++) {
+//         let x = arr[i];
+//         let temp = 0;
+
+//         while (x > 0) {
+//             temp += x & 1;
+//             x >>= 1;
+//         }
+
+//         if (temp in obj) {
+//             obj[temp].push(arr[i]);
+//         } else {
+//             obj[temp] = [arr[i]];
+//         }
+//     }
+
+//     let keys = Object.keys(obj).sort((a, b) => a - b);
+//     let ans = [];
+
+//     for (let key of keys) {
+//         ans = ans.concat(obj[key].sort((a, b) => a - b));
+//     }
+
+//     return ans;
+// };
+
+// Second Solution
 const sortByBits = function (arr) {
-    let obj = {};
 
-    for (let i = 0; i < arr.length; i++) {
-        let x = arr[i];
-        let temp = 0;
-
-        while (x > 0) {
-            temp += x & 1;
-            x >>= 1;
+    const countBits = (n) => {
+        let count = 0
+        while (n) {
+            count += n & 1
+            n >>= 1
         }
-
-        if (temp in obj) {
-            obj[temp].push(arr[i]);
-        } else {
-            obj[temp] = [arr[i]];
-        }
+        return count
     }
 
-    let keys = Object.keys(obj).sort((a, b) => a - b);
-    let ans = [];
-
-    for (let key of keys) {
-        ans = ans.concat(obj[key].sort((a, b) => a - b));
-    }
-
-    return ans;
-};
+    return arr.sort((a, b) => {
+        const bitsA = countBits(a)
+        const bitsB = countBits(b)
+        if (bitsA === bitsB) {
+            return a - b
+        }
+        return bitsA - bitsB
+    })
+}
 
 export { sortByBits }
